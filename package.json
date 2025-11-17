@@ -1,0 +1,25 @@
+{
+  "name": "prueba_apw_p1",
+  "version": "1.0.0",
+  "description": "Prueba parcial 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JosePin2004/Prueba_APW_P1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/JosePin2004/Prueba_APW_P1/issues"
+  },
+  "homepage": "https://github.com/JosePin2004/Prueba_APW_P1#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.17",
+    "tailwindcss": "^4.1.17"
+  }
+}
