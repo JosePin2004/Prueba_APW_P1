@@ -6,61 +6,6 @@
     <title>Compu-PC</title>
     <link rel="icon" type="image/png" href="logo pagina.png">
     <link href="./output.css" rel="stylesheet" />
-    <style>
-        /* Fondo gaming con degradado y patrón */
-        body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 50%, #1a1a2e 100%);
-            background-attachment: fixed;
-            position: relative;
-        }
-
-        /* Patrón de textura (opcional) */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, .03) 2px, rgba(255, 255, 255, .03) 4px),
-                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, .03) 2px, rgba(255, 255, 255, .03) 4px);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Asegurar que el contenido esté encima del patrón */
-        body > * {
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Efecto de borde gaming en el header */
-        header {
-            border-bottom: 3px solid #e74c3c;
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
-        }
-
-        /* Estilo del main */
-        main {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            backdrop-filter: blur(5px);
-            padding: 2rem;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Efecto hover en las cards */
-        article {
-            transition: all 0.3s ease;
-        }
-
-        article:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
-            border-color: #e74c3c;
-        }
-    </style>
 </head>
 <body class="bg-slate-1000 min-h-screen">
     <!-- HEADER -->
@@ -73,17 +18,17 @@
         <img 
         src="logo tineda.png"  
         alt="logo"
-        class="absolute left-1/2 -translate-x-1/2 h-auto w-70"
+        class="absolute left-1/2 -translate-x-1/2 h-auto w-80"
     >
     </header>
 <!-- CONTENIDO -->
-  <main class="p-6 max-w-6xl mx-auto mt-6">
+  <main class="p-6 max-w-6xl mx-auto">
             <!-- BARRA DE BÚSQUEDA / CONTROLES -->
             <section class="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-start">
                 <!-- Container del input y el botón de búsqueda -->
                 <div class="flex items-center gap-2 w-full md:max-w-md md:pl-0"> <!-- Cambié aquí -->
                     <input id="input-busqueda" type="text" placeholder="Buscar videojuego..."
-                        class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400" />
+                        class="w-full rounded-lg border border-slate-200 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-slate-400" />
                     <button id="btn-buscar" class="px-1 py-2 bg-slate-900 text-white rounded-lg text-sm hover:bg-slate-800">
                         Buscar
                     </button>
@@ -111,7 +56,7 @@
             </section>
              <!-- GRID DE VIDEOJUEGOS -->
         <section>
-            <h2 class="text-lg font-semibold mb-4 text-black">Ofertas destacadas</h2>
+            <h2 class="text-lg font-semibold mb-4 text-white">Ofertas destacadas</h2>
         
             <!-- ESTADO DE CARGA -->
             <p id="estado-de-carga" class="text-sm text-slate-500 mb-3 hidden">Cargando videojuegos...</p>
