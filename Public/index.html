@@ -6,6 +6,61 @@
     <title>Compu-PC</title>
     <link rel="icon" type="image/png" href="logo pagina.png">
     <link href="./output.css" rel="stylesheet" />
+    <style>
+        /* Fondo gaming con degradado y patrón */
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 50%, #1a1a2e 100%);
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Patrón de textura (opcional) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, .03) 2px, rgba(255, 255, 255, .03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, .03) 2px, rgba(255, 255, 255, .03) 4px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Asegurar que el contenido esté encima del patrón */
+        body > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Efecto de borde gaming en el header */
+        header {
+            border-bottom: 3px solid #e74c3c;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Estilo del main */
+        main {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            padding: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Efecto hover en las cards */
+        article {
+            transition: all 0.3s ease;
+        }
+
+        article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
+            border-color: #e74c3c;
+        }
+    </style>
 </head>
 <body class="bg-slate-1000 min-h-screen">
     <!-- HEADER -->
@@ -22,21 +77,21 @@
     >
     </header>
 <!-- CONTENIDO -->
-  <main class="p-6 max-w-6xl mx-auto">
+  <main class="p-6 max-w-6xl mx-auto mt-6">
             <!-- BARRA DE BÚSQUEDA / CONTROLES -->
             <section class="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-start">
                 <!-- Container del input y el botón de búsqueda -->
                 <div class="flex items-center gap-2 w-full md:max-w-md md:pl-0"> <!-- Cambié aquí -->
-                    <input type="text" placeholder="Buscar videojuego..."
+                    <input id="input-busqueda" type="text" placeholder="Buscar videojuego..."
                         class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400" />
-                    <button class="px-1 py-2 bg-slate-900 text-white rounded-lg text-sm hover:bg-slate-800">
+                    <button id="btn-buscar" class="px-1 py-2 bg-slate-900 text-white rounded-lg text-sm hover:bg-slate-800">
                         Buscar
                     </button>
                 </div>
 
                 <!-- Contenedores para los selectores -->
                 <div class="flex gap-2">
-                    <select
+                    <select id="select-plataforma"
                         class="rounded-lg border border-slate-200 px-1 py-2 text-black bg-white focus:outline-none focus:ring-2 focus:ring-slate-400">
                         <option value="">Plataforma</option>
                         <option value="pc">PC</option>
@@ -45,7 +100,7 @@
                         <option value="switch">Nintendo Switch</option>
                     </select>
 
-                    <select
+                    <select id="select-ordenar"
                         class="rounded-lg border border-slate-200 px-3 py-2 text-black bg-white focus:outline-none focus:ring-2 focus:ring-slate-400">
                         <option value="">Ordenar por</option>
                         <option value="rating">Mejor valorados</option>
@@ -80,6 +135,41 @@
             </div>
         </section>
         </main>
+
+        <!-- MODAL DE DETALLES -->
+        <div id="modal-detalles" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg shadow-lg max-w-2xl w-full mx-4 overflow-hidden">
+                <!-- Header del modal -->
+                <div class="bg-slate-900 text-white p-6 flex justify-between items-center">
+                    <h2 id="modal-titulo" class="text-2xl font-bold">Detalles del juego</h2>
+                    <button id="btn-cerrar-modal" class="text-2xl font-bold hover:text-slate-300">&times;</button>
+                </div>
+
+                <!-- Contenido del modal -->
+                <div class="p-6 flex flex-col gap-4">
+                    <!-- Imagen -->
+                    <img id="modal-imagen" src="" alt="Juego" class="w-full h-64 object-cover rounded-lg">
+
+                    <!-- Información -->
+                    <div class="flex flex-col gap-3">
+                        <p class="text-sm text-slate-500">
+                            <strong>Precio normal:</strong> <span id="modal-precio-normal" class="text-slate-900">-</span>
+                        </p>
+                        <p class="text-lg text-green-900 font-bold">
+                            <strong>Precio en oferta:</strong> <span id="modal-precio-oferta" class="text-green-600">-</span>
+                        </p>
+                        <p class="text-sm text-slate-600">
+                            <strong>Ahorro:</strong> <span id="modal-ahorro" class="text-slate-900">-</span>
+                        </p>
+                    </div>
+
+                    <!-- Enlace a la tienda -->
+                    <a id="modal-enlace-tienda" href="#" target="_blank" class="mt-4 block text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
+                        Ir a la tienda
+                    </a>
+                </div>
+            </div>
+        </div>
     </body>
     <script src="scrip.js"></script>
 </html>
