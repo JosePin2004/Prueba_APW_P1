@@ -3,28 +3,12 @@ const grid = document.querySelector('#grid-videogames');
 const estadoCarga = document.querySelector('#estado-de-carga');
 const mensajeError = document.querySelector('#mensaje-de-error');
 const inputBusqueda = document.querySelector('input[placeholder="Buscar videojuego..."]');
+const btnVerMas = document.querySelector('#btn-ver-mas');
 
-//Local data videogames si la API falla//
-const videogames = [
-    {
-        title: "God of War",
-        thumb: "https://gmedia.playstation.com/is/image/SIEPDC/god-of-war-listing-thumb-01-ps4-us-12jun17?$facebook$",
-        normalPrice: "$59.99",
-        salePrice: "$29.99",
-        savings: 50,
-        descripcion: "Acción · Aventura · PS4 / PS5",
-        rating: 4.8,
-    },
-    {
-        title: "Zelda: Tears of the Kingdom",
-        thumb: "https://androidgram.com/wp-content/uploads/2023/05/Zelda-Tears-of-the-Kingdom-ToTK-All-Towns-Settlements-List-with-coordinates-2.jpg",
-        normalPrice: "$69.99",
-        salePrice: "$49.99",
-        savings: 28,
-        descripcion: "Aventura · Acción · Nintendo Switch",
-        rating: 4.7,
-    },
-];
+//Variables de control//
+let paginaActual = 0;
+const juegosPorPagina = 12;
+
 
 //Función para pintar las cards//
 function renderizarVideojuegos(lista) {
@@ -33,7 +17,7 @@ function renderizarVideojuegos(lista) {
         return;
     }
     
-    grid.innerHTML = ''; // Limpiar el grid antes de renderizar
+    // No limpiar el grid, agregar nuevos elementos
 
     lista.forEach((juego) => {
         //Ajusta los nombres de las propiedades según la API//
@@ -71,7 +55,6 @@ function renderizarVideojuegos(lista) {
                   ${ahorro ? ` . Ahorra ${ahorro}%` : ""}
                 </p>
                   
-                <button class="mt-2 w-full bg-slate-900 text-white py-2 rounded-lg text-sm hover:bg-slate-800">Ver detalles</button>        
 
                 <p class="text-sm text-slate-600 flex-1">${juego.descripcion || ""}</p>
                 <div class="mt-4 flex items-center justify-between">
@@ -89,25 +72,67 @@ function renderizarVideojuegos(lista) {
 async function cargarVideojuegosInicial() {
     estadoCarga.classList.remove("hidden");
     mensajeError.classList.add("hidden");
+    grid.innerHTML = '';
+    paginaActual = 0;
     
     try {
-        const url = "https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=20";
-        const res = await fetch(url); //espera a que se resuelva la api//
+        const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=${juegosPorPagina}&pageNumber=${paginaActual}`;
+        const res = await fetch(url);
         if (!res.ok) {
             throw new Error("Error en la Respuesta de la API");
         }
-        const data = await res.json(); //espera a que se convierta a json//
+        const data = await res.json();
         window._juegosCache = data;
         renderizarVideojuegos(data);
+        paginaActual++;
     }
     catch (e) {
         console.error("Error al cargar Cheapshark", e);
         mensajeError.classList.remove('hidden');
-        renderizarVideojuegos(videogames);
     }
     finally {
         estadoCarga.classList.add('hidden');
     }
+}
+
+//Cargar más juegos//
+async function cargarMasJuegos() {
+    estadoCarga.classList.remove("hidden");
+    mensajeError.classList.add("hidden");
+    btnVerMas.disabled = true;
+    
+    try {
+        const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=${juegosPorPagina}&pageNumber=${paginaActual}`;
+        const res = await fetch(url);
+        if (!res.ok) {
+            throw new Error("Error en la Respuesta de la API");
+        }
+        const data = await res.json();
+        
+        if (data.length === 0) {
+            mensajeError.textContent = "No hay más juegos disponibles";
+            mensajeError.classList.remove('hidden');
+            btnVerMas.disabled = false;
+            return;
+        }
+        
+        renderizarVideojuegos(data);
+        paginaActual++;
+        btnVerMas.disabled = false;
+    }
+    catch (e) {
+        console.error("Error al cargar más juegos", e);
+        mensajeError.classList.remove('hidden');
+        btnVerMas.disabled = false;
+    }
+    finally {
+        estadoCarga.classList.add('hidden');
+    }
+}
+
+//Event listeners//
+if (btnVerMas) {
+    btnVerMas.addEventListener('click', cargarMasJuegos);
 }
 
 //Ejecutar al cargar la página//
