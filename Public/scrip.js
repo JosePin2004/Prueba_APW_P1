@@ -148,11 +148,15 @@ function abrirModal(juego) {
     document.querySelector('#modal-ahorro').textContent = ahorro !== "-" ? `${ahorro}%` : "No disponible";
     
     // Construye el enlace a la tienda (CheapShark)
-    let enlaceURL = "#";
-    if (juego.gameID) {
-        // Si existe gameID, crea un enlace directo a Steam
-        enlaceURL = `https://www.cheapshark.com/api/redirect/steam?appID=${juego.gameID}`;
-    }
+    // Opción 1: Enlace directo a CheapShark (más confiable)
+    let enlaceURL = `https://www.cheapshark.com/search?q=${encodeURIComponent(titulo)}`;
+    
+    // Opción 2 (comentada): Si quieres intentar Steam primero
+    // if (juego.gameID) {
+    //     enlaceURL = `https://www.cheapshark.com/api/redirect/steam?appID=${juego.gameID}`;
+    // } else {
+    //     enlaceURL = `https://www.cheapshark.com/search?q=${encodeURIComponent(titulo)}`;
+    // }
     
     document.querySelector('#modal-enlace-tienda').href = enlaceURL;
     
